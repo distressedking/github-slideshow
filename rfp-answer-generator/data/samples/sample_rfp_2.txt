@@ -1,0 +1,60 @@
+REQUEST FOR PROPOSAL
+Cloud Migration and Infrastructure Services
+
+ORGANIZATION: Global Healthcare Systems
+RFP NUMBER: GHS-CLOUD-2024
+DEADLINE: April 30, 2024
+
+INTRODUCTION
+
+Global Healthcare Systems is seeking qualified vendors to provide cloud migration and infrastructure management services. We currently operate on-premises data centers and wish to migrate to a cloud-first strategy while maintaining compliance with healthcare regulations.
+
+REQUIREMENTS AND QUESTIONS
+
+1. Cloud Migration Experience
+
+   1.1 What is your experience with large-scale cloud migrations in the healthcare industry?
+
+   1.2 Describe your migration methodology and typical timeline for enterprise migrations.
+
+   1.3 How do you minimize downtime during migration?
+
+2. Healthcare Compliance
+
+   2.1 How do you ensure HIPAA compliance in cloud environments?
+
+   2.2 What experience do you have with HITRUST certification?
+
+   2.3 Describe your approach to protecting Protected Health Information (PHI) in the cloud.
+
+3. Technical Expertise
+
+   3.1 What cloud platforms do you recommend for healthcare workloads and why?
+
+   3.2 How do you handle hybrid cloud architectures?
+
+   3.3 Describe your approach to infrastructure as code and automation.
+
+4. Disaster Recovery
+
+   4.1 What disaster recovery solutions do you implement for healthcare systems?
+
+   4.2 What are your typical RPO and RTO capabilities?
+
+   4.3 How do you test disaster recovery plans?
+
+5. Ongoing Support
+
+   5.1 What managed services do you provide post-migration?
+
+   5.2 How do you handle 24/7 support for critical healthcare systems?
+
+   5.3 What tools do you use for monitoring and alerting?
+
+6. Cost and Timeline
+
+   6.1 Provide a rough estimate for migrating 500 servers and 2 PB of data.
+
+   6.2 What cost optimization strategies do you recommend?
+
+   6.3 How do you ensure projects stay on budget?

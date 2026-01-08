@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFP Answer Generator</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>RFP Answer Generator</h1>
+            <p class="subtitle">Generate professional RFP responses using AI-powered document analysis</p>
+        </header>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar" id="stats-bar">
+            <div class="stat-item">
+                <span class="stat-value" id="stat-pairs">0</span>
+                <span class="stat-label">Document Pairs</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="stat-chunks">0</span>
+                <span class="stat-label">Indexed Chunks</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="stat-files">0</span>
+                <span class="stat-label">Unique Files</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Tab Navigation -->
+            <nav class="tab-nav">
+                <button class="tab-btn active" data-tab="upload">Upload Documents</button>
+                <button class="tab-btn" data-tab="generate">Generate Answers</button>
+                <button class="tab-btn" data-tab="search">Search</button>
+                <button class="tab-btn" data-tab="manage">Manage</button>
+            </nav>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Upload Tab -->
+                <div class="tab-panel active" id="upload-panel">
+                    <h2>Upload Document Pairs</h2>
+                    <p class="info-text">Upload previous RFP documents alongside their successful answers to build your knowledge base.</p>
+
+                    <form id="upload-pair-form" class="upload-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="rfp-file">RFP Document</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="rfp-file" name="rfp_file" accept=".pdf,.docx,.txt,.md" required>
+                                    <span class="file-name">Choose RFP file...</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="answer-file">Answer Document</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="answer-file" name="answer_file" accept=".pdf,.docx,.txt,.md" required>
+                                    <span class="file-name">Choose Answer file...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-text">Upload Document Pair</span>
+                            <span class="btn-loading">Uploading...</span>
+                        </button>
+                    </form>
+
+                    <div class="divider">
+                        <span>or upload single document</span>
+                    </div>
+
+                    <form id="upload-single-form" class="upload-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="single-file">Document</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="single-file" name="file" accept=".pdf,.docx,.txt,.md" required>
+                                    <span class="file-name">Choose file...</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="doc-type">Document Type</label>
+                                <select id="doc-type" name="document_type" required>
+                                    <option value="rfp">RFP Document</option>
+                                    <option value="answer">Answer Document</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">
+                            <span class="btn-text">Upload Single Document</span>
+                            <span class="btn-loading">Uploading...</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Generate Tab -->
+                <div class="tab-panel" id="generate-panel">
+                    <h2>Generate RFP Answers</h2>
+
+                    <div class="generate-options">
+                        <div class="option-card active" data-mode="question">
+                            <h3>Single Question</h3>
+                            <p>Enter a specific RFP question to get an answer</p>
+                        </div>
+                        <div class="option-card" data-mode="bulk">
+                            <h3>Multiple Questions</h3>
+                            <p>Enter multiple questions (one per line)</p>
+                        </div>
+                        <div class="option-card" data-mode="file">
+                            <h3>From File</h3>
+                            <p>Upload an RFP to extract and answer questions</p>
+                        </div>
+                    </div>
+
+                    <!-- Single Question Form -->
+                    <form id="single-question-form" class="generate-form">
+                        <div class="form-group">
+                            <label for="question-input">RFP Question</label>
+                            <textarea id="question-input" name="question" rows="4" placeholder="Enter your RFP question here..." required></textarea>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="use-llm" name="use_llm">
+                                <span>Use LLM Enhancement (requires API key)</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-text">Generate Answer</span>
+                            <span class="btn-loading">Generating...</span>
+                        </button>
+                    </form>
+
+                    <!-- Bulk Questions Form -->
+                    <form id="bulk-questions-form" class="generate-form hidden">
+                        <div class="form-group">
+                            <label for="bulk-input">RFP Questions (one per line)</label>
+                            <textarea id="bulk-input" name="questions" rows="8" placeholder="Enter your questions, one per line...&#10;&#10;Example:&#10;What is your company's experience in this field?&#10;How do you ensure data security?&#10;What is your implementation timeline?" required></textarea>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="use_llm">
+                                <span>Use LLM Enhancement (requires API key)</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-text">Generate All Answers</span>
+                            <span class="btn-loading">Generating...</span>
+                        </button>
+                    </form>
+
+                    <!-- File Upload Form -->
+                    <form id="file-questions-form" class="generate-form hidden">
+                        <div class="form-group">
+                            <label for="rfp-upload">Upload RFP Document</label>
+                            <div class="file-input-wrapper large">
+                                <input type="file" id="rfp-upload" name="file" accept=".pdf,.docx,.txt,.md" required>
+                                <span class="file-name">Drop file here or click to upload</span>
+                            </div>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="use_llm">
+                                <span>Use LLM Enhancement (requires API key)</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-text">Extract & Generate Answers</span>
+                            <span class="btn-loading">Processing...</span>
+                        </button>
+                    </form>
+
+                    <!-- Results Section -->
+                    <div id="results-section" class="results-section hidden">
+                        <div class="results-header">
+                            <h3>Generated Answers</h3>
+                            <div class="results-actions">
+                                <button class="btn btn-small" id="export-md">Export Markdown</button>
+                                <button class="btn btn-small" id="export-json">Export JSON</button>
+                                <button class="btn btn-small" id="copy-all">Copy All</button>
+                            </div>
+                        </div>
+                        <div id="results-container"></div>
+                    </div>
+                </div>
+
+                <!-- Search Tab -->
+                <div class="tab-panel" id="search-panel">
+                    <h2>Search Documents</h2>
+                    <p class="info-text">Search through your uploaded documents to find relevant content.</p>
+
+                    <form id="search-form">
+                        <div class="form-group">
+                            <label for="search-input">Search Query</label>
+                            <input type="text" id="search-input" name="query" placeholder="Enter search terms..." required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="search-type">Document Type</label>
+                                <select id="search-type" name="document_type">
+                                    <option value="">All Documents</option>
+                                    <option value="rfp">RFPs Only</option>
+                                    <option value="answer">Answers Only</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="search-limit">Results Limit</label>
+                                <select id="search-limit" name="top_k">
+                                    <option value="5">5 results</option>
+                                    <option value="10">10 results</option>
+                                    <option value="20">20 results</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-text">Search</span>
+                            <span class="btn-loading">Searching...</span>
+                        </button>
+                    </form>
+
+                    <div id="search-results" class="search-results hidden"></div>
+                </div>
+
+                <!-- Manage Tab -->
+                <div class="tab-panel" id="manage-panel">
+                    <h2>Manage Documents</h2>
+
+                    <div class="manage-section">
+                        <h3>Document Pairs</h3>
+                        <div id="pairs-list" class="pairs-list">
+                            <p class="loading">Loading document pairs...</p>
+                        </div>
+                    </div>
+
+                    <div class="manage-section danger-zone">
+                        <h3>Danger Zone</h3>
+                        <p class="warning-text">These actions cannot be undone.</p>
+                        <button class="btn btn-danger" id="clear-all-btn">Clear All Documents</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
