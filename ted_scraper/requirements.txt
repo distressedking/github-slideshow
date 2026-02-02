@@ -1,0 +1,14 @@
+# TED Europa Scraper Dependencies
+
+# Core HTTP library
+requests>=2.28.0
+
+# HTML parsing
+beautifulsoup4>=4.11.0
+lxml>=4.9.0
+
+# Optional: Browser automation (for Selenium mode)
+selenium>=4.8.0
+
+# Optional: WebDriver manager (auto-download drivers)
+webdriver-manager>=4.0.0
